@@ -1,0 +1,194 @@
+
+{% extends "shop/index.html" %}
+{% load static %}
+{% block title %}Login{% endblock %}
+{% block inf_gl_s %}{% endblock %}
+{% block content %}
+
+<div class="container">
+            <div class="page_inner">                
+<ul class="breadcrumb">
+    <li>
+        <a href="/">Главная</a>
+    </li>
+        <li>
+            <a href="/smart/">Cмартфоны</a>
+        </li>
+        
+        <li>
+            <a href="/smart/harakter/">{{ product.tovar_name }}</a>
+        </li>  
+</ul>
+</div>
+</div>
+
+<div class="container">
+<h2 class="arrow">Мобильный телефон {{ har.tovarinphoto_info }}</h2>
+<div class="row">
+		<div class="col-md-12"></div>
+        <div class="col-md-4">
+
+<div class="item" style="height: 40%; width: 190px;">
+					<img style="height: 40%; width: 190px;" class="img-rounded" src="/media/{{fot.tovar_image}}" alt="Alt">
+					<img style="height: 40%; width: 190px;" class="img-rounded" src="/media/{{fot.tovar_image1}}" alt="Alt">
+					<img style="height: 40%; width: 190px;" class="img-rounded" src="/media/{{fot.tovar_image2}}" alt="Alt">
+                    <img style="height: 40%; width: 190px;" class="img-rounded" src="/media/{{fot.tovar_image3}}" alt="Alt">
+
+					
+					
+				</div>
+</div>
+
+<div class="col-sm-8">
+      <h1 class="form-signin-heading">{{ product.tovar_name }}</h1>
+      <p class="form-signin-heading" style="font-size: 22px;" >{{ product.tovar_price }} руб. </p>
+
+        <form  action="{% url "cart:CartAdd" product.id %}" style="font-size: 18px;"  method="post" >
+    {{ cart_product_form }}
+    {% csrf_token %}
+    <input type="submit" value="Купить" class="btn btn-primary btn-info" >
+        </form>
+      <span>{{ product.description | linebreaks}}</span>
+    </div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="container">
+
+
+<div class="tabbable"> <!-- Only required for left/right tabs -->
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#tab1" data-toggle="tab">Описание</a></li>
+    <li><a href="#tab2" data-toggle="tab">Характеристики</a></li>
+    <li><a href="#tab3" data-toggle="tab">Отзывы</a></li>
+  </ul>
+  <div  class="tab-content">
+    <div  class="tab-pane active" id="tab1">
+        <p> </p>
+
+        <div class="row">
+		<div class="col-md-12"></div>
+        <div class="col-md-3"></div>
+            <div class="col-md-6">
+                {{fot.tovar_video|safe}}
+            </div>
+        </div>
+
+         <p> {{fot.tovar_info3}} </p>
+
+    <p><img style=" display: block;
+    margin-left: auto;
+    margin-right: auto" class="img-rounded" src="{% if fot.tovar_image3 %}{{ fot.tovar_image3.url }}{% else %}
+    {% static "/img/no-image.jpg"%}{% endif %}" class="img-responsive"></p>
+         <p> {{fot.tovar_info4}} </p>
+   <p><img style=" display: block;
+    margin-left: auto;
+    margin-right: auto" class="img-rounded" src="{% if fot.tovar_image4 %}{{ fot.tovar_image4.url }}{% else %}
+    {% static "/img/no-image.jpg"%}{% endif %}" class="img-responsive"></p>
+         <p> {{fot.tovar_info5}} </p>
+   <p><img style=" display: block;
+    margin-left: auto;
+    margin-right: auto" class="img-rounded" src="{% if fot.tovar_image5 %}{{ fot.tovar_image5.url }}{% else %}{% static "/img/no-image.jpg"%}{% endif %}" class="img-responsive"></p>
+
+
+
+    </div>
+    <div class="tab-pane" id="tab2">
+      <p>
+      	<div class="col-md-12"></div>
+        <div class="col-md-6">
+      	 <h2 class="sub-header">Характеристики</h2>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              
+                <tr>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Диагональ экрана</td>
+                  <td>{{har.tovarinphoto_diagon}} "</td>
+                </tr>
+                <tr>
+                  <td>Оперативная память</td>
+                  <td>{{har.tovarinphoto_ram}} Гб</td>
+                </tr>
+                <tr>
+                  <td>Память ПЗУ</td>
+                  <td>16 Гб</td>
+                </tr>
+                <tr>
+                  <td>Емкость АКБ</td>
+                  <td>{{har.tovarinphoto_akb}} мА·ч</td>
+                </tr>
+                <tr>
+                  <td>Основная камера</td>
+                  <td>{{har.tovarinphoto_osnkamera}} Мп</td>
+                </tr>
+                <tr>
+                  <td>Операционная система</td>
+                  <td>{{har.tovarinphoto_opsystem}}</td>
+                </tr>
+                <tr>
+                  <td>Цвет</td>
+                  <td>Silver ({{har.tovarinphoto_color}})</td>
+                </tr>
+                <tr>
+                  <td>Количество ядер</td>
+                  <td>{{har.tovarinphoto_cpu}} ядра</td>
+                </tr>
+                <tr>
+                  <td>Разрешения дисплея</td>
+                  <td>{{har.tovarinphoto_razreshenie}}</td>
+                </tr>
+                <tr>
+                  <td>Фронтальная камера</td>
+                  <td>{{har.tovarinphoto_frontkamera}} Мп</td>
+                </tr>
+                <tr>
+                  <td>Сканер отпечатков</td>
+                  <td>{{har.tovarinphoto_scaner}}</td>
+                </tr>
+                <tr>
+                  <td>LTE/3g/EDGE</td>
+                  <td>{{har.tovarinphoto_3g}}</td>
+                </tr>
+                <tr>
+                  <td>GPS</td>
+                  <td>{{har.tovarinphoto_gps}}</td>
+                </tr>
+                <tr>
+                  <td>Тип матрицы</td>
+                  <td>{{har.tovarinphoto_matrix}}</td>
+                </tr>
+                <tr>
+                  <td>Количество сим-карт</td>
+                  <td>{{har.tovarinphoto_sim}}</td>
+                </tr>
+
+               </tbody>
+               </table>
+               </div>
+              </div>
+             
+
+             
+
+      </p>
+    </div>
+    <div class="tab-pane" id="tab3">
+      <h2>Пока нет ни одного отзыва.</h2>
+    </div>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

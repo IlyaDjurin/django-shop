@@ -1,0 +1,71 @@
+ {% extends "shop/index.html" %}
+ {% load static %}
+
+
+
+{% block title %}Smart{% endblock %}
+{% block inf_gl_s %}{% endblock %}
+{% block content %}
+
+
+<div class="container">
+<div class="page-header">
+        <h1>Смартфоны</h1>
+      </div>
+      <p>
+        <div class="form-signin">
+        <form method="get" action="/smart/">
+        <a  href="/smart/" class="btn btn-lg btn-info" type="submit">Все</a>
+        <a  href="/smart/?phone_name=hone" class="btn btn-lg btn-info" type="submit">Apple</a>
+        <a  href="/smart/?phone_name=sam" class="btn btn-lg btn-info" type="submit">Samsung</a>
+        <a  href="/smart/?phone_name=meiz" class="btn btn-lg btn-info" type="submit">Meizu</a>
+        <a  href="/smart/?phone_name=lg" class="btn btn-lg btn-info" type="submit">LG</a>
+        <a  href="/smart/?phone_name=iaom" class="btn btn-lg btn-info" type="submit">Xiaomi</a>
+        <a  href="/smart/?phone_name=novo" class="btn btn-lg btn-info" type="submit">Lenovo</a>
+        <a  href="/smart/?phone_name=lus" class="btn btn-lg btn-info" type="submit">OnePlus</a>
+        </form>
+      </p>
+      <div class="page-header"></div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-lg-offset2 col-lg-4">
+    <form method="get" class="form-inline" role="form" action="/smart/">
+    <div class="form-group">
+      <label class="sr-only">Название </label><input type="text" class="form-control" name="phone_name"/> 
+    </div>
+      <button type="submit" class="btn btn-success">Искать</button>
+    </form>
+  </div>
+</div> -->
+<div class="container">
+<div class="row">
+<div class="col-md-12"></div>
+<div class="col-md-3">  <h3   class="text-left" >Фильтры</h3>
+{% include "shop/nav_sidebar.html" %}
+</div> 
+
+
+ 
+      
+
+      <!-- Three columns of text below the carousel -->
+      
+   
+        <div class="col-md-9">
+          {% for product in products %}
+          <div class="pull-left">
+             <a href="{{ product.get_absolute_url }}"><br>
+            <img src="{% if product.tovar_image %}{{ product.tovar_image.url }}{% endif %}" class="img-thumbnail" alt="Generic placeholder image">
+            </a><br>
+         <a href="{{ product.get_absolute_url }}">{{ product.tovar_name }}</a><br>
+          {{ product.tovar_price }} руб.
+        </div>
+    {% endfor %}
+      <!-- /.row -->
+
+</div> 
+</div> 
+
+
+{% endblock %}

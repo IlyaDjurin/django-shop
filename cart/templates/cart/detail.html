@@ -1,0 +1,58 @@
+{% extends "shop/index.html" %}
+{% block inf_gl_s %}{% endblock %}
+{% block title %}
+  Ваша корзина товаров
+{% endblock %}
+{% block content %}
+<div class="container">
+  <h1>Ваша корзина товаров</h1>
+  <table class="table table-bordered" style="vertical-align:align:middle;" >
+    <thead>
+      <tr>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Изображение</th>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Продукт</th>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Количество</th>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Удалить</th>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Полная цена</th>
+        <th style="color:#D8BFD8; background-color: #551A8B;" class="info">Цена</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart %}
+        {% with product=item.product %}
+          <tr>
+            <td>
+              <a href="{{ product.get_absolute_url }}">
+                <img style="border: 1px ; width: 120px; height: 120px;" class="img-rounded" src="{{ product.tovar_image.url }}"  />
+              </a>
+            </td>
+            <td style="vertical-align: middle;">{{ product.tovar_name }}</td>
+
+            <td style="vertical-align: middle;">
+
+                {{ item.quantity }}
+
+
+
+            </td>
+
+            <td style="vertical-align: middle;"><a href="{% url "cart:CartRemove" product.id %}">Удалить</a></td>
+            <td style="vertical-align: middle;" class="num">{{ item.price }} руб.</td>
+            <td style="vertical-align: middle;" class="num">{{ item.total_price }} руб.</td>
+          </tr>
+        {% endwith %}
+      {% endfor %}
+      <p></p>
+        <tr class="total">
+          <td style="vertical-align: middle;">Всего</td>
+          <td style="vertical-align: middle;" colspan="4"></td>
+          <td style="vertical-align: middle;" class="num">{{ cart.get_total_price }} руб.</td>
+        </tr>
+    </tbody>
+  </table>
+  <p class="text-right">
+    <a href="{% url "shop:ProductList"%}" class="btn">Продолжить покупки</a>
+    <a href="{% url "orders:OrderCreate" %}" class="btn">Оформить заказ</a>
+  </p>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "shop/index.html" %}
+
+{% block title %}Login{% endblock %}
+{% block inf_gl_s %}
+{% block content %}{% endblock %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12"></div>
+        <div class="col-md-4"></div>
+         <div class="col-md-4">
+
+
+
+      <form class="form-signin" role="form" method="post" >{% csrf_token %}
+        <h2 class="form-signin-heading">Пожалуйста зарегистрируйтесь</h2>
+        <input autofocus="" id="id_username" maxlength="150" type="text" class="form-control input-sm" placeholder="Имя пользователя:" name="username" required /><p></p><span class="helptext">Обязательное поле. Не более 150 символов. Только буквы, цифры и символы @/./+/-/_.</span><p></p>
+        <input id="id_password1" name="password1" type="password"  class="form-control input-sm" placeholder="Пароль" required />
+        <p></p>
+        <input id="id_password2" name="password2" type="password"  class="form-control input-sm" placeholder="Подтверждение пароля:" required /><p></p> <span class="helptext">Для подтверждения введите, пожалуйста, пароль ещё раз.</span>
+        <label class="checkbox">
+          <input type="checkbox" value="remember-me"> Запомнить меня
+        </label>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
+      </form>
+      </div>
+      </div>
+      </div>
+
+
+{% endblock %}
+
+

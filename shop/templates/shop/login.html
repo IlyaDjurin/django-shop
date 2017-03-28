@@ -1,0 +1,26 @@
+{% extends "shop/index.html" %}
+{% block title %}Login{% endblock %}
+{% block inf_gl_s %}{% endblock %}
+{% block content %}
+
+ <div class="container">
+      <div class="row">
+        <div class="col-md-12"></div>
+        <div class="col-md-4"></div>
+         <div class="col-md-4">
+    <form class="form-signin" role="form" action="" method="post">
+      {% csrf_token %}
+
+      <h2 class="form-signin-heading">Вход в личный кабинет</h2>
+      <input autofocus="" id="id_username" maxlength="254" type="text" class="form-control input-sm" placeholder="Имя пользователя:" name="username" required /><p></p>
+      <input id="id_password" name="password" type="password"  class="form-control input-sm" placeholder="Пароль" required /><p></p>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
+      <a href="/logout/" class="btn btn-lg btn-primary btn-block">Выход</a>
+
+    </form>
+      <p></p><span class="helptext">Если вы не заригестрированы,нажмите <a href="/log1/">сюда</a>.</span>
+  </div>
+      </div>
+      </div>
+
+{% endblock %}
