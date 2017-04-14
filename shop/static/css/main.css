@@ -34,3 +34,9 @@ body {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+.img-poisk{
+    border: 1px ;
+    width: 26px;
+    height: 26px;
+}
+

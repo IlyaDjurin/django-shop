@@ -1,0 +1,6 @@
+{% for i in cat_list %}
+
+
+<p><img src="{% if i.tovar_image %}{{ i.tovar_image.url }}{% endif %}" class="img-poisk" alt="Generic placeholder image">
+    <a href="{{ i.get_absolute_url }}">{{ i }}</a></p>
+{% endfor %}
