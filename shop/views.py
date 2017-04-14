@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import Kategor, Tovar, Tovar_inphoto, Tovar_img
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
-
+from django.http import JsonResponse
 from django.utils.http import is_safe_url
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
@@ -18,6 +18,8 @@ from django.http import HttpResponse
 from django.shortcuts import render_to_response
 from cart.forms import CartAddProductForm
 from .forms import TovarForm
+from .forms import ContactForm
+from django.core.mail import send_mail,BadHeaderError
 
 
 def index(request):
@@ -162,7 +164,8 @@ def ProductList(request, category_slug=None):
             for i in a2.values_list('tovarinphoto_proizv', flat=True).order_by('tovarinphoto_proizv'):
                 list_a2.append(i)
 
-            a3 = Tovar_inphoto.objects.filter(tovarinphoto_osnkamera__in=[z[11], z[12], z[13], z[14], z[15], z[16], z[17]])
+            a3 = Tovar_inphoto.objects.filter(
+                tovarinphoto_osnkamera__in=[z[11], z[12], z[13], z[14], z[15], z[16], z[17]])
             list_a3 = []
             for i in a3.values_list('tovarinphoto_proizv', flat=True).order_by('tovarinphoto_proizv'):
                 list_a3.append(i)
@@ -177,10 +180,8 @@ def ProductList(request, category_slug=None):
             for i in a5.values_list('tovarinphoto_proizv', flat=True).order_by('tovarinphoto_proizv'):
                 list_a5.append(i)
 
-
-
             list_all_p = []
-            list_all_proizv = [list_a0, list_a1, list_a2, list_a3, list_a4,list_a5]
+            list_all_proizv = [list_a0, list_a1, list_a2, list_a3, list_a4, list_a5]
             for i in list_all_proizv:
                 if len(i) != 0:
                     list_all_p.append(set(i))
@@ -205,14 +206,31 @@ def ProductList(request, category_slug=None):
     })
 
 
-def search(request):
-    if 'phone_name' in request.GET:
-        products = Tovar_inphoto.objects.filter(tovarinphoto_info__icontains=request.GET['phone_name'])
-        return render(request, 'shop/smartfons.html', {
-            'products': products})
+def get_category_list(max_results=0, starts_with=''):
+    cat_list = []
+    if starts_with:
+        cat_list = Tovar.objects.filter(tovar_name__icontains=starts_with)
+    if max_results > 0:
+        if len(cat_list) > max_results:
+            cat_list = cat_list[:max_results]
+
+    return cat_list
 
 
-        # Страница товара
+def suggest_category(request):
+    cat_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+
+    cat_list = get_category_list(8, starts_with)
+
+    return render(request, 'shop/category_list.html', {'cat_list': cat_list})
+
+
+
+
+    # Страница товара
 
 
 def ProductDetail(request, id, slug):
@@ -223,6 +241,7 @@ def ProductDetail(request, id, slug):
     return render(request, 'shop/harakteriskick.html', {'product': product, 'har': har,
                                                         'cart_product_form': cart_product_form,
                                                         'fot': fot})
+
 
 # def ProductDetail(request, id, slug):
 #     product = get_object_or_404(Tovar, id=id, tovar_slug=slug, tovar_available=True)
@@ -248,3 +267,37 @@ def ProductDetail(request, id, slug):
 # return render_to_response('shop/product/detail.html',
 #   {'product': product,
 #  'cart_product_form': cart_product_form})
+
+
+
+# Функция формы обратной связи
+def contactform(reguest):
+    if reguest.method == 'POST':
+        form = ContactForm(reguest.POST)
+        # Если форма заполнена корректно, сохраняем все введённые пользователем значения
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            sender = form.cleaned_data['sender']
+            message = form.cleaned_data['message']
+            copy = form.cleaned_data['copy']
+
+            recepients = ['leva2048@mail.ru']
+            # Если пользователь захотел получить копию себе, добавляем его в список получателей
+            if copy:
+                recepients.append(sender)
+            try:
+                send_mail(subject, message, 'leva2048@mail.ru', recepients)
+            except BadHeaderError:  # Защита от уязвимости
+                return HttpResponse('Invalid header found')
+            # Переходим на другую страницу, если сообщение отправлено
+            return HttpResponseRedirect('/thanks/')
+
+    else:
+        form = ContactForm()
+    # Выводим форму в шаблон
+    return render(reguest, 'contact.html', {'form': form })
+
+
+def thanks(reguest):
+    thanks = 'thanks'
+    return render(reguest, 'thanks.html', {'thanks': thanks})
