@@ -36,8 +36,7 @@ var query = $(this).val();
 $.ajax({
         url : /suggest_category/,
         type : "GET",
-        data : { //csrfmiddlewaretoken : csrftoken//,
-         suggestion: query},
+        data : { //csrfmiddlewaretoken : csrftoken//, suggestion: query},
         success: function(data){
         $('#cats').html(data);
         }
